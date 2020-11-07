@@ -1,2 +1,2 @@
 # ohtu-2020-tehtavat
-add link to viikko1 repo
+https://github.com/larikkai/ohtu-2020-viikko1
