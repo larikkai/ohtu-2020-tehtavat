@@ -1,2 +1,2 @@
 # ohtu-2020-tehtavat
-tahan linkki viikon1 repoon
+add link to viikko1 repo
