@@ -3,7 +3,9 @@ plugins {
     id 'application'
 }
 
-mainClassName = 'ohtu.Main'
+application {
+    mainClass = 'ohtu.App'
+}
 
 repositories {
     jcenter()
