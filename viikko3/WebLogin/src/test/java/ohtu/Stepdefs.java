@@ -61,9 +61,7 @@ public class Stepdefs {
 
     @Given("command new user is selected")
     public void newUserSelected() {
-        driver.get(baseUrl);
-        WebElement element = driver.findElement(By.linkText("register new user"));   
-        element.click();
+        goNewUserPage();
     }
 
     @When("a valid username {string} and password {string} and matching password confirmation are entered")
@@ -101,9 +99,27 @@ public class Stepdefs {
         pageHasContent(message);
     }
 
-    @When("nome {string} and invalid password {string}")
+    @When("correct username {string} and invalid password {string} are given")
     public void test(String username, String password) {
         createUserWith(username, password);
+    }
+
+    @Given("user with username {string} with password {string} is successfully created")
+    public void newUserCreatedAndCanLogIn(String username, String password) {
+        goNewUserPage();
+        createUserWith(username, password);
+        pageHasContent("Welcome to Ohtu Application!");
+        logoutAfterCreatingNewUser();
+    }
+
+    @Given("user with username {string} and password {string} is tried to be created")
+    public void userCannotLoginIfAccountNotSuccesfullyCreated(String username, String password) {
+        goNewUserPage();
+        createUserWith(username, password);
+        pageHasContent("username should have at least 3 characters");
+        pageHasContent("password should have at least 8 characters");
+        pageHasContent("password cannot contain only letters");
+        driver.get(baseUrl);
     }
 
     @After
@@ -125,6 +141,12 @@ public class Stepdefs {
         element.sendKeys(password);
         element = driver.findElement(By.name("login"));
         element.submit();  
+    }
+
+    private void goNewUserPage() {
+        driver.get(baseUrl);
+        WebElement element = driver.findElement(By.linkText("register new user"));   
+        element.click();
     }
 
     private void createUserWith(String username, String password) {
@@ -149,5 +171,14 @@ public class Stepdefs {
         element.sendKeys(passConfirmation);
         element = driver.findElement(By.name("signup"));
         element.submit();  
+    }
+
+    public void logoutAfterCreatingNewUser() {
+        WebElement element = driver.findElement(By.linkText("continue to application mainpage"));
+        element.click();
+        pageHasContent("Ohtu Application main page");
+        element = driver.findElement(By.linkText("logout"));
+        element.click();
+        pageHasContent("Ohtu App");
     }
 }

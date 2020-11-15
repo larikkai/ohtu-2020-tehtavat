@@ -7,3 +7,5 @@ student4;password
 test_user1;password1
 pas;pass
 test_user2;password
+simo1;password1
+student123;password1
