@@ -1,0 +1,9 @@
+pekka;akkep
+student;password
+student2;password
+student666;password
+student3;password
+student4;password
+test_user1;password1
+pas;pass
+test_user2;password
