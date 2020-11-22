@@ -6,15 +6,14 @@ import java.util.stream.IntStream;
 
 public class IntJoukko {
 
-    public final static int OLETUSKAPASITETTI = 5, // aloitustalukon koko
-                            OLETUSKASVATUSKOKO = 5;  // luotava uusi taulukko on 
-    // näin paljon isompi kuin vanha
-    private int kasvatuskoko;     // Uusi taulukko on tämän verran vanhaa suurempi.
-    private int[] ljono;      // Joukon luvut säilytetään taulukon alkupäässä. 
-    private int alkioidenLkm;    // Tyhjässä joukossa alkioiden_määrä on nolla.
-    static IntJoukko apuIntJoukko;
-    static private int[] aTaulu;
-    static private int[] bTaulu;
+    public final static int OLETUSKAPASITETTI = 5,
+                            OLETUSKASVATUSKOKO = 5;
+    private int kasvatuskoko;
+    private int[] ljono;
+    private int alkioidenLkm;
+    private static IntJoukko apuIntJoukko;
+    private static int[] aTaulu;
+    private static int[] bTaulu;
 
     public IntJoukko() {
         ljono = new int[OLETUSKAPASITETTI];
