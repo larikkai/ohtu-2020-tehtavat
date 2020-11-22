@@ -1,2 +1,0 @@
-ohtu/verkkokauppa/KauppaTest.java
- ohtu.verkkokauppa.KauppaTest

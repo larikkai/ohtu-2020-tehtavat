@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Matchers.*;
+import static org.mockito.ArgumentMatchers.*;
 
 public class KauppaTest {
 
@@ -33,8 +33,9 @@ public class KauppaTest {
         k.aloitaAsiointi();
         k.lisaaKoriin(1);
         k.tilimaksu("pekka", "12345");
-        
-        verify(varasto, times(2)).saldo(anyInt());
+
+        verify(varasto, times(1)).saldo(1);
+        verify(varasto, times(1)).haeTuote(1);
         verify(pankki).tilisiirto(eq("pekka"), eq(50), eq("12345"), eq("33333-44455"), eq(5));
     }
 
@@ -46,6 +47,7 @@ public class KauppaTest {
         k.tilimaksu("simo", "112233");
 
         verify(varasto, times(2)).saldo(anyInt());
+        verify(varasto, times(2)).haeTuote(anyInt());
         verify(pankki).tilisiirto(eq("simo"), eq(50), eq("112233"), eq("33333-44455"), eq(7));
     }
 
@@ -56,7 +58,8 @@ public class KauppaTest {
         k.lisaaKoriin(1);
         k.tilimaksu("simo", "112233");
 
-        verify(varasto, times(2)).saldo(anyInt());
+        verify(varasto, times(2)).saldo(1);
+        verify(varasto, times(2)).haeTuote(1);
         verify(pankki).tilisiirto(eq("simo"), eq(50), eq("112233"), eq("33333-44455"), eq(10));
     }
 
@@ -68,6 +71,47 @@ public class KauppaTest {
         k.tilimaksu("simo", "112233");
 
         verify(varasto, times(2)).saldo(anyInt());
+        verify(varasto, times(1)).haeTuote(anyInt());
         verify(pankki).tilisiirto(eq("simo"), eq(50), eq("112233"), eq("33333-44455"), eq(5));
+    }
+
+    @Test
+    public void uudenAsioinninAloittaminenNollaaEdellisenOstoksenTiedot() {
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.aloitaAsiointi();
+        k.lisaaKoriin(2);
+        k.tilimaksu("simo", "112233");
+
+        verify(varasto, times(2)).saldo(anyInt());
+        verify(varasto, times(2)).haeTuote(anyInt());
+        verify(pankki).tilisiirto(eq("simo"), eq(50), eq("112233"), eq("33333-44455"), eq(2));
+    }
+
+    @Test
+    public void hakeeUudenViitenumeronJokaiselleTilimaksulle() {
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.tilimaksu("simo", "112233");
+        k.aloitaAsiointi();
+        k.lisaaKoriin(2);
+        k.tilimaksu("simo", "112233");
+
+        verify(varasto, times(2)).saldo(anyInt());
+        verify(varasto, times(2)).haeTuote(anyInt());
+        verify(viite, times(2)).uusi();
+    }
+
+    @Test
+    public void veloitusOikeinKunPoistetaanTuoteKorista() {
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.poistaKorista(1);
+        k.lisaaKoriin(2);
+        k.tilimaksu("simo", "112233");
+
+        verify(varasto, times(2)).saldo(anyInt());
+        verify(varasto, times(3)).haeTuote(anyInt());
+        verify(pankki).tilisiirto(eq("simo"), eq(50), eq("112233"), eq("33333-44455"), eq(2));
     }
 }
