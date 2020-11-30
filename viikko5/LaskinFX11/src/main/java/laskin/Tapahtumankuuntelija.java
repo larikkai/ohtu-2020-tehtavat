@@ -28,7 +28,11 @@ public class Tapahtumankuuntelija implements EventHandler {
     
     @Override
     public void handle(Event event) {
-        sovellus.hae(((Button)event.getSource()).getText()).suorita();
+        if(event.getTarget() == undo) {
+            sovellus.hae(((Button)event.getSource()).getText()).peru();
+        } else {
+            sovellus.hae(((Button)event.getSource()).getText()).suorita();
+        }
         
         if ( io.getResult() == 0) {
             nollaa.disableProperty().set(true);

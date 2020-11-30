@@ -27,7 +27,5 @@ public class TextFieldIO implements IO {
     @Override
     public int getResult() {
         return Integer.parseInt(tuloskentta.getText());
-    }
-
-    
+    }   
 }

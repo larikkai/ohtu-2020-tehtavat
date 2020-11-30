@@ -14,7 +14,7 @@ public class Miinus extends Komento {
     public void suorita() {
         this.edellinenTulos = io.getResult();
         try {
-            nykyinenTulos = edellinenTulos+Integer.parseInt(io.readString());
+            nykyinenTulos = edellinenTulos-Integer.parseInt(io.readString());
         } catch (Exception e) {
         }
         io.setResult(nykyinenTulos);
