@@ -13,6 +13,7 @@ public class Tapahtumankuuntelija implements EventHandler {
     private Button nollaa;
     private Button undo;
     private Sovelluslogiikka sovellus;
+    private IO io;
 
     public Tapahtumankuuntelija(TextField tuloskentta, TextField syotekentta, Button plus, Button miinus, Button nollaa, Button undo) {
         this.tuloskentta = tuloskentta;
@@ -21,34 +22,15 @@ public class Tapahtumankuuntelija implements EventHandler {
         this.miinus = miinus;
         this.nollaa = nollaa;
         this.undo = undo;
-        this.sovellus = new Sovelluslogiikka();
+        this.io = new TextFieldIO(tuloskentta, syotekentta);
+        this.sovellus = new Sovelluslogiikka(io);
     }
     
     @Override
     public void handle(Event event) {
-        int arvo = 0;
- 
-        try {
-            arvo = Integer.parseInt(syotekentta.getText());
-        } catch (Exception e) {
-        }
- 
-        if (event.getTarget() == plus) {
-            sovellus.plus(arvo);
-        } else if (event.getTarget() == miinus) {
-            sovellus.miinus(arvo);
-        } else if (event.getTarget() == nollaa) {
-            sovellus.nollaa();
-        } else {
-            System.out.println("undo pressed");
-        }
+        sovellus.hae(((Button)event.getSource()).getText()).suorita();
         
-        int laskunTulos = sovellus.tulos();
-        
-        syotekentta.setText("");
-        tuloskentta.setText("" + laskunTulos);
-        
-        if ( laskunTulos==0) {
+        if ( io.getResult() == 0) {
             nollaa.disableProperty().set(true);
         } else {
             nollaa.disableProperty().set(false);
