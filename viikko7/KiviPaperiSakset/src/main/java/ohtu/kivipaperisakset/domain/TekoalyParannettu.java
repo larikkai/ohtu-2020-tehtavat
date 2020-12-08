@@ -1,5 +1,5 @@
 
-package ohtu.kivipaperisakset;
+package ohtu.kivipaperisakset.domain;
 
 // "Muistava tekoäly"
 
